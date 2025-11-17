@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ספירה לאחור לטיסה של טובי לקרעסטיר</title>
+    
+    <!-- META TAGS FOR SOCIAL SHARING -->
+    <meta property="og:title" content="ספירה לאחור לטיסה של טובי לקרעסטיר">
+    <meta property="og:description" content="סופרים לאחור עד הטיסה | י&quot;ז כסלו תשפ&quot;ו">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pinywinner.github.io/COUNTDOWN/">
+    <meta property="og:image" content="https://i.ibb.co/5ghmNdm2/image.jpg">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Anton -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* FIX: Prevent all overflow */
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+        }
+        body {
+            font-family: 'Anton', sans-serif;
+            background-color: #F5E3FF; /* Fallback color */
+            color: #000000;
+            letter-spacing: 0.025em;
+            background-image: url('https://i.ibb.co/5ghmNdm2/image.jpg'); /* Mobile/Portrait Image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            position: relative; 
+            z-index: 0;
+            margin: 0; /* Reset default margin */
+            padding: 0; /* Reset default padding */
+        }
+
+        /* Desktop background image */
+        @media (min-width: 768px) { /* 'md' breakpoint */
+            body {
+                background-image: url('https://i.ibb.co/V0b5ws7H/photo5-p59m62dzi5tc7w5lc1xo340bmm3l099tui4p2n8n76.jpg'); /* Desktop/Landscape Image */
+            }
+            
+            /* FIX: Make overlay lighter (0.20) on desktop only */
+            body::before {
+                background-color: rgba(245, 227, 255, 0.20); /* Was 0.35 */
+            }
+        }
+
+        /* Overlay */
+        body::before { 
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(245, 227, 255, 0.5); /* Reduced opacity (default for mobile) */
+            z-index: -2; /* Pushed further back */
+        }
+
+        .brutal-shadow { box-shadow: 8px 8px 0px #000000; }
+        .countdown-number { font-weight: 400; color: #FF0000; line-height: 1; text-shadow: 2px 2px 0px rgba(0,0,0,0.2); }
+        .label-text { letter-spacing: 0.05em; }
+        .transition-transform { transition: transform 0.2s ease-in-out; }
+        
+        #confetti-canvas, #burst-confetti-canvas { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; /* FIX: Use 100% instead of 100vw */
+            height: 100%; /* FIX: Use 100% instead of 100vh */
+            pointer-events: none; 
+        }
+        
+        #confetti-canvas {
+            z-index: -1; /* Behind content */
+        }
+
+        #burst-confetti-canvas {
+            z-index: 10; /* On top of everything */
+        }
+        
+        @keyframes pop { 50% { transform: scale(1.2); } }
+        .animate-pop { animation: pop 0.4s ease-in-out; }
+
+        /* === STABILIZED FLIP ANIMATION STYLES === */
+        .header-wrapper {
+            perspective: 1000px;
+            min-height: 150px; 
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header-flipper {
+            transition: transform 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transform-style: preserve-3d;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .header-flipper.is-flipped {
+            transform: rotateY(180deg);
+        }
+        .header-front, .header-back {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header-back {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<!-- FIX: Removed padding from body, added flex wrapper -->
+<body class="min-h-screen flex items-center justify-center">
+
+    <!-- Confetti Canvas (Background) -->
+    <canvas id="confetti-canvas"></canvas>
+    
+    <!-- Burst Effect Canvas -->
+    <canvas id="burst-confetti-canvas"></canvas>
+
+
+    <!-- Main Content Wrapper (Centered and Padded) -->
+    <!-- FIX: Removed desktop padding, will be controlled by main grid's max-width -->
+    <div class="w-full mx-auto flex flex-col items-center px-4 py-8"> 
+    
+        <!-- Centered content block -->
+        <div class="text-center flex flex-col items-center justify-between w-full">
+            
+            <!-- Header Flipper -->
+            <div class="header-wrapper mb-6 transform -rotate-2 hover:scale-105">
+                <div id="header-flipper" class="header-flipper">
+                    
+                    <!-- Front (New Title) -->
+                    <div class="header-front">
+                        <div class="bg-white py-3 px-4 border-8 border-black brutal-shadow">
+                            <h1 class="text-3xl sm:text-4xl lg:text-5xl text-black my-1 flex flex-wrap items-center justify-center font-normal leading-tight">
+                                <span>ספירה לאחור לטיסה של</span>
+                                <!-- FIX: Increased margin to ml-2 for more space -->
+                                <strong class="font-bold ml-2"> טובי לקרעסטיר </strong>
+                            </h1>
+                            <p class="text-md sm:text-lg lg:text-xl mt-2 tracking-widest">ממריאים בעוד:</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Back (Updated Welcome) -->
+                    <div class="header-back">
+                         <div class="bg-white py-3 px-4 border-8 border-black brutal-shadow">
+                            <!-- FIX: Comma is DEFINITELY removed here -->
+                            <h1 class="text-5xl sm:text-6xl lg:text-7xl text-black my-4 px-8">נסיעה טובה ציבי!</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Countdown Timer Blocks -->
+            <!-- 
+              FIX: Reverted to lg:grid-cols-2 
+              FIX: Added lg:max-w-5xl to make the 2x2 grid "full"
+            -->
+            <main id="countdown-container" class="grid grid-cols-2 lg:grid-cols-2 gap-4 lg:gap-8 mb-6 lg:mb-12 w-full lg:max-w-5xl" style="direction: rtl;">
+                <div id="days-box" class="bg-white rounded-none p-3 lg:p-6 border-8 border-black brutal-shadow transform rotate-2 hover:scale-110 transition-transform">
+                    <div id="days" class="text-4xl sm:text-5xl lg:text-7xl countdown-number">00</div>
+                    <div class="text-sm sm:text-base lg:text-xl font-bold mt-1 label-text">ימים</div>
+                </div>
+                <div id="hours-box" class="bg-white rounded-none p-3 lg:p-6 border-8 border-black brutal-shadow transform -rotate-2 hover:scale-110 transition-transform">
+                    <div id="hours" class="text-4xl sm:text-5xl lg:text-7xl countdown-number">00</div>
+                    <div class="text-sm sm:text-base lg:text-xl font-bold mt-1 label-text">שעות</div>
+                </div>
+                <div id="minutes-box" class="bg-white rounded-none p-3 lg:p-6 border-8 border-black brutal-shadow transform rotate-1 hover:scale-110 transition-transform">
+                    <div id="minutes" class="text-4xl sm:text-5xl lg:text-7xl countdown-number">00</div>
+                    <div class="text-sm sm:text-base lg:text-xl font-bold mt-1 label-text">דקות</div>
+                </div>
+                <div id="seconds-box" class="bg-white rounded-none p-3 lg:p-6 border-8 border-black brutal-shadow transform -rotate-1 hover:scale-110 transition-transform">
+                    <div id="seconds" class="text-4xl sm:text-5xl lg:text-7xl countdown-number">00</div>
+                    <div class="text-sm sm:text-base lg:text-xl font-bold mt-1 label-text">שניות</div>
+                </div>
+            </main>
+            
+            <!-- Footer Date Display -->
+            <footer id="footer-message" class="transform transition-transform hover:scale-105 rotate-1">
+                 <p class="text-base sm:text-lg lg:text-2xl font-bold bg-black text-white inline-block py-2 px-4">07.12.2025 | י"ז כסלו תשפ"ו | 07:25</p>
+            </footer>
+        </div>
+        
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        window.onload = function() {
+            const flipper = document.getElementById('header-flipper');
+
+            function startCountdown() {
+                const countdownDate = new Date("2025-12-07T07:25:00").getTime();
+                const daysEl = document.getElementById('days');
+                const hoursEl = document.getElementById('hours');
+                const minutesEl = document.getElementById('minutes');
+                const secondsEl = document.getElementById('seconds');
+                const daysBox = document.getElementById('days-box');
+                const hoursBox = document.getElementById('hours-box');
+                const minutesBox = document.getElementById('minutes-box');
+                const secondsBox = document.getElementById('seconds-box');
+                const countdownContainer = document.getElementById('countdown-container');
+                const footerMessage = document.getElementById('footer-message');
+                let prevDays, prevHours, prevMinutes, prevSeconds;
+
+                if (!daysEl) return; 
+
+                const interval = setInterval(() => {
+                    const now = new Date().getTime();
+                    const distance = countdownDate - now;
+
+                    if (distance < 0) {
+                        clearInterval(interval);
+                        countdownContainer.innerHTML = `<div class="col-span-2 lg:col-span-2 bg-white p-6 border-8 border-black brutal-shadow"><h2 class="text-4xl text-[#FF0000]">הטיסה יצאה!</h2></div>`;
+                        if (footerMessage) footerMessage.innerHTML = '<p class="text-xl font-bold bg-black text-white inline-block p-4">נסיעה טובה!</p>';
+                        return;
+                    }
+
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    if (seconds !== prevSeconds) {
+                        secondsBox.classList.add('animate-pop');
+                        setTimeout(() => secondsBox.classList.remove('animate-pop'), 400);
+                    }
+                    if (minutes !== prevMinutes) {
+                        minutesBox.classList.add('animate-pop');
+                        setTimeout(() => minutesBox.classList.remove('animate-pop'), 400);
+                    }
+                    if (hours !== prevHours) {
+                        hoursBox.classList.add('animate-pop');
+                        setTimeout(() => hoursBox.classList.remove('animate-pop'), 400);
+                    }
+                    if (days !== prevDays) {
+                        daysBox.classList.add('animate-pop');
+                        setTimeout(() => daysBox.classList.remove('animate-pop'), 400);
+                    }
+
+                    prevDays = days; prevHours = hours; prevMinutes = minutes; prevSeconds = seconds;
+                    
+                    daysEl.innerText = String(days).padStart(2, '0');
+                    hoursEl.innerText = String(hours).padStart(2, '0');
+                    minutesEl.innerText = String(minutes).padStart(2, '0');
+                    secondsEl.innerText = String(seconds).padStart(2, '0');
+                }, 1000);
+            }
+
+            // --- Welcome Animation Logic (Runs on every load) ---
+            
+            flipper.classList.add('is-flipped'); // Start flipped
+            
+            const burstCanvas = document.getElementById('burst-confetti-canvas');
+            if (burstCanvas) {
+                
+                // Create a confetti instance tied to the specific canvas
+                const myConfetti = confetti.create(burstCanvas, {
+                  resize: true,
+                  useWorker: false // FIX: Ensure worker is disabled
+                });
+
+                setTimeout(() => { // Launch confetti
+                    myConfetti({
+                        particleCount: 150,
+                        spread: 90,
+                        origin: { y: 0.1 },
+                        useWorker: false // FIX: Ensure worker is disabled
+                    });
+                }, 200);
+            }
+
+
+            setTimeout(() => { // Flip back
+                flipper.classList.remove('is-flipped');
+            }, 1000); // Flips back after 1 sec
+
+            // Start the countdown logic *after* the animation is done
+            setTimeout(startCountdown, 2500); // 2.5 sec delay
+
+            // --- Background Confetti Logic ---
+            const canvas = document.getElementById('confetti-canvas');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                let particles = [];
+                const particleCount = 50;
+                const colors = ["rgba(0,0,0,0.3)", "rgba(0,0,0,0.5)"];
+
+                function Particle(x, y, size, shape, color, speed) {
+                    this.x = x; this.y = y; this.size = size; this.shape = shape; this.color = color; this.speed = speed; this.rotation = Math.random() * 360;
+                }
+                Particle.prototype.draw = function() {
+                    ctx.save(); ctx.translate(this.x, this.y); ctx.rotate(this.rotation * Math.PI / 180); ctx.fillStyle = this.color;
+                    // FIX: Corrected this-size to this.size
+                    if (this.shape === 'square') { ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size); } 
+                    else { ctx.fillRect(-this.size / 2, -1, this.size, 2); } // Line shape
+                    ctx.restore();
+                };
+                Particle.prototype.update = function() {
+                    this.y += this.speed; this.rotation += this.speed / 2;
+                    if (this.y > canvas.height) { // Reset particle
+                        this.y = -this.size; this.x = Math.random() * canvas.width; 
+                    }
+                };
+                function initParticles() {
+                    particles = []; // Clear existing particles
+                    for (let i = 0; i < particleCount; i++) {
+                        const x = Math.random() * canvas.width; const y = Math.random() * canvas.height; const size = Math.random() * 15 + 5;
+                        const shape = Math.random() > 0.5 ? 'square' : 'line'; const color = colors[Math.floor(Math.random() * colors.length)];
+                        const speed = Math.random() * 1 + 0.2; particles.push(new Particle(x, y, size, shape, color, speed));
+                    }
+                }
+                function animate() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    for (let i = 0; i < particles.length; i++) { particles[i].update(); particles[i].draw(); }
+                    requestAnimationFrame(animate);
+                }
+                initParticles();
+                animate();
+                
+                // Handle window resize
+                window.addEventListener('resize', () => {
+                    if (canvas.width !== window.innerWidth || canvas.height !== window.innerHeight) {
+                        canvas.width = window.innerWidth; canvas.height = window.innerHeight; 
+                        initParticles(); // Re-initialize particles on resize
+                    }
+                });
+            }
+        };
+    </script>
+
+</body>
+</html>
